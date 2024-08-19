@@ -1,0 +1,7 @@
+<div class="layout">
+    <ul class="student-list">
+        <% for(var i = 0; i < students.length; i++) {%>
+            <%- include('item.ejs',{item:students[i]})%>
+        <% } %>
+    </ul>
+</div>
