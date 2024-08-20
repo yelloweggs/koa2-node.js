@@ -1,5 +1,8 @@
-const cp = require('child_process')
-const { resolve } = require('path')
+const cp = require('child_process'),
+     { resolve } = require('path'),
+     nanoId = require('nanoid'),
+     Qiniu = require('qiniu')
+
 
 module.exports ={
     // 为爬虫程序创建子进程执行
@@ -31,5 +34,28 @@ module.exports ={
             options.error(err);
         })
 
+    },
+
+    // 上传七牛
+    qiniuUpload(options){
+        const mac = new Quniu.auth.digest.Mac(options.ak,options.sk),
+              conf = new Quniu.conf.Config(),
+              client = new Qiniu.rs.BucketManager(mac,conf),
+              key = nanoId() + options.exit;
+
+        // 上传
+        return new Promise((resolve,reject)=>{
+            client.fetch(options.url,options.bucket,key,(error,ret,info)=>{
+                if(error) {
+                    reject(error)
+                } else {
+                    if(info.statusCode === 200){
+                        resolve({key})
+                    }else {
+                        reject(info)
+                    }
+                }
+            })
+        })
     }
 }
