@@ -14,10 +14,8 @@ router.get('/',indexController)
 
 // 爬虫页面
 // prefix的意思是统一在路由上加前缀
-router.prefix('/crawler',crawlerController)
-router.get('/crawl_slider_data',crawlerController.crawlerSlider)
-
-
+router.prefix('/crawler')
+router.get('/crawl_slider_data',crawlerController.crawlSliderData)
 
 
 
